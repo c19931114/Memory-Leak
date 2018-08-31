@@ -18,10 +18,11 @@ class SendingVC: UIViewController {
         super.viewDidLoad()
         
         receivingVC = ReceivingVC()
+        print(self)
+        print(receivingVC)
         
         receivingVC = nil
     }
-    
     
 }
 
@@ -33,15 +34,17 @@ class ReceivingVC {
 
     init() {
         print("hi")
-
-        closure = { [weak self] in
+        print(self)
+        closure = { [ self] in
             
             // 去掉 weak 就會memory leak
             
-            guard let object = self else {
-                return
-            }
-            print(object.text)
+//            guard let object = self else {
+//                return
+//            }
+//            print(object.text)
+            
+            print(self.text)
             // if you are 100% sure that self will never be nil, then just use [unowned self]
         }
     }
