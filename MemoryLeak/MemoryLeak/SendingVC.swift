@@ -35,7 +35,14 @@ class ReceivingVC {
         print("hi")
 
         closure = { [weak self] in
-            print(self?.text)
+            
+            // 去掉 weak 就會memory leak
+            
+            guard let object = self else {
+                return
+            }
+            print(object.text)
+            // if you are 100% sure that self will never be nil, then just use [unowned self]
         }
     }
     
