@@ -8,14 +8,9 @@
 
 import UIKit
 
-protocol SendDataDelegate: class {
-    
-}
-
 class SendingVC: UIViewController {
     
-//    weak var delegate: SendDataDelegate? // 不會 memory leak
-    var delegate: SendDataDelegate? // 會 memory leak
+ // 會 memory leak
     
     var receivingVC: ReceivingVC?
     
@@ -23,22 +18,25 @@ class SendingVC: UIViewController {
         super.viewDidLoad()
         
         receivingVC = ReceivingVC()
-
+        
         receivingVC = nil
     }
     
+    
 }
 
-class ReceivingVC: SendDataDelegate {
+class ReceivingVC {
     
     lazy var sendingVC = SendingVC()
-    
+    var closure: (() -> Void)?
+    let text = "hi, i'm in the closure"
+
     init() {
-    
         print("hi")
-        
-        sendingVC.delegate = self // self refers to ReceivingVC object
-        // 傳送端的 delegate 是接收端
+
+        closure = { [weak self] in
+            print(self?.text)
+        }
     }
     
     deinit {
